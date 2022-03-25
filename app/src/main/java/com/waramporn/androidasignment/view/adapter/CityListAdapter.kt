@@ -8,11 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.waramporn.androidasignment.R
-import com.waramporn.presentation.model.City
-import com.waramporn.presentation.model.CityLocation
+import com.waramporn.presentation.display.CityDisplay
 
 class CityListAdapter(
-    private val cities: List<City>,
+    private val cities: List<CityDisplay>,
     private val listener: OnClickListener
 ) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
 
@@ -49,17 +48,17 @@ class CityListAdapter(
         }
 
         fun bind(
-            item: City,
+            item: CityDisplay,
             onClickListener: OnClickListener
         ) {
-            tvCity.text = item.name + ", " + item.country
-            tvLat.text = item.coord.lat.toString()
-            tvLon.text = item.coord.lon.toString()
-            tvArrow.setOnClickListener { onClickListener.onClick(item.coord) }
+            tvCity.text = item.cityName
+            tvLat.text = item.lat.toString()
+            tvLon.text = item.lon.toString()
+            tvArrow.setOnClickListener { onClickListener.onClick(item.lat, item.lon) }
         }
     }
 
     interface OnClickListener {
-        fun onClick(location: CityLocation)
+        fun onClick(lat: Double, lon: Double)
     }
 }
