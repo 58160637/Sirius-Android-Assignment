@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -46,8 +47,8 @@ class CityListAdapter(
         @BindView(R.id.tv_lon)
         lateinit var tvLon: TextView
 
-        @BindView(R.id.tv_arrow)
-        lateinit var tvArrow: TextView
+        @BindView(R.id.card_view)
+        lateinit var cityCardView: CardView
 
         init {
             ButterKnife.bind(this, itemView)
@@ -60,7 +61,7 @@ class CityListAdapter(
             tvCity.text = item.cityName
             tvLat.text = item.lat.toString()
             tvLon.text = item.lon.toString()
-            tvArrow.setOnClickListener { onClickListener.onClick(item.lat, item.lon) }
+            cityCardView.setOnClickListener { onClickListener.onClick(item.lat, item.lon) }
         }
     }
 
