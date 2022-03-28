@@ -1,6 +1,7 @@
 package com.waramporn.presentation.presenter
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import com.google.gson.Gson
 import com.waramporn.presentation.display.CityDisplay
 import com.waramporn.presentation.mapper.DisplayMapper
@@ -20,14 +21,17 @@ class Presenter(
         private const val GOOGLE_MAP_URL = "http://maps.google.com/maps?q=loc:%f,%f"
     }
 
-    private lateinit var cityList: List<CityDisplay>
-    private var searchCityList = ArrayList<CityDisplay>()
+    @VisibleForTesting
+    lateinit var cityList: List<CityDisplay>
+
+    @VisibleForTesting
+    var searchCityList = ArrayList<CityDisplay>()
 
     override fun start() {
         val cityJson = Utils.getJsonDataFromAsset(context, CITIES_JSON)
         try {
             val cities = Gson().fromJson(cityJson, Array<City>::class.java).toList()
-            cityList = mapper.transfromList(cities)
+            cityList = mapper.transformList(cities)
             view.showCityList(cityList)
         } catch (ex: Exception) {
             Timber.w(ex)
@@ -41,7 +45,7 @@ class Presenter(
             val tampList = ArrayList(cityList)
             searchCityList.clear()
             searchCityList = tampList.filter {
-                it.cityName.startsWith(searchText.toString(), false)
+                it.cityName.startsWith(searchText.toString(), true)
             } as ArrayList<CityDisplay>
             if (searchCityList.isNullOrEmpty()) {
                 view.showNoResults()

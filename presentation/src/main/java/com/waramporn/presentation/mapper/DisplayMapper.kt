@@ -4,13 +4,13 @@ import com.waramporn.presentation.display.CityDisplay
 import com.waramporn.presentation.model.City
 
 class DisplayMapper {
-    fun transfromList(cities: List<City>): List<CityDisplay> {
+    fun transformList(cities: List<City>): List<CityDisplay> {
         return cities
             .sortedBy { it.name }
-            .map { transfrom(it) }
+            .map { transform(it) }
     }
 
-    fun transfrom(city: City): CityDisplay {
+    private fun transform(city: City): CityDisplay {
         return CityDisplay(
             cityName = city.name + ", " + city.country,
             _id = city._id,
