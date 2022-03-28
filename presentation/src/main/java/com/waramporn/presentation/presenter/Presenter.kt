@@ -7,15 +7,17 @@ import com.waramporn.presentation.mapper.DisplayMapper
 import com.waramporn.presentation.model.City
 import com.waramporn.presentation.views.Contractor
 import timber.log.Timber
+import java.util.Locale
 
 class Presenter(
     private val context: Context,
-    val view: Contractor.View,
-    val mapper: DisplayMapper
+    private val view: Contractor.View,
+    private val mapper: DisplayMapper
 ) : Contractor.Presenter {
 
     companion object {
         private const val CITIES_JSON = "cities.json"
+        private const val GOOGLE_MAP_URL = "http://maps.google.com/maps?q=loc:%f,%f"
     }
 
     private lateinit var cityList: List<CityDisplay>
@@ -33,7 +35,7 @@ class Presenter(
     }
 
     override fun search(searchText: String?) {
-        if (searchText?.isEmpty() == true) {
+        if (searchText.isNullOrEmpty()) {
             view.updateList(ArrayList(cityList))
         } else {
             val tampList = ArrayList(cityList)
@@ -47,5 +49,12 @@ class Presenter(
                 view.updateList(searchCityList)
             }
         }
+    }
+
+    override fun onCityClick(lat: Double, lon: Double) {
+        val uri: String = String.format(
+            Locale.ENGLISH, GOOGLE_MAP_URL, lat, lon
+        )
+        view.navigateToGoogleMap(uri)
     }
 }

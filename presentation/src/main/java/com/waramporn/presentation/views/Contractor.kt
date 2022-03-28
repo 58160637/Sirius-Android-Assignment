@@ -8,10 +8,12 @@ interface Contractor {
         fun updateList(cityList: ArrayList<CityDisplay>)
         fun showNoResults()
         fun hideNoResults()
+        fun navigateToGoogleMap(uri: String)
     }
 
     interface Presenter {
         fun start()
         fun search(searchText: String?)
+        fun onCityClick(lat: Double, lon: Double)
     }
 }

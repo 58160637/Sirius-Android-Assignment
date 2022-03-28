@@ -1,5 +1,7 @@
 package com.waramporn.androidasignment.view.activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -16,7 +18,6 @@ import com.waramporn.presentation.display.CityDisplay
 import com.waramporn.presentation.mapper.DisplayMapper
 import com.waramporn.presentation.presenter.Presenter
 import com.waramporn.presentation.views.Contractor
-
 
 class MainActivity : AppCompatActivity(), Contractor.View, CityListAdapter.OnClickListener {
 
@@ -77,7 +78,12 @@ class MainActivity : AppCompatActivity(), Contractor.View, CityListAdapter.OnCli
         rvCity.visibility = View.VISIBLE
     }
 
-    override fun onClick(lat: Double, lon: Double) {
+    override fun navigateToGoogleMap(uri: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+        startActivity(intent)
+    }
 
+    override fun onClick(lat: Double, lon: Double) {
+        presenter.onCityClick(lat, lon)
     }
 }
