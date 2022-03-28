@@ -11,7 +11,7 @@ import com.waramporn.androidasignment.R
 import com.waramporn.presentation.display.CityDisplay
 
 class CityListAdapter(
-    private val cities: List<CityDisplay>,
+    private val cities: ArrayList<CityDisplay>,
     private val listener: OnClickListener
 ) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
 
@@ -27,6 +27,12 @@ class CityListAdapter(
 
     override fun getItemCount(): Int {
         return cities.size
+    }
+
+    fun updateList(cityList: List<CityDisplay>) {
+        cities.clear()
+        cities.addAll(cityList)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

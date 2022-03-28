@@ -1,8 +1,11 @@
 package com.waramporn.androidasignment.view.activity
 
 import android.os.Bundle
-import android.widget.Toast
+import android.view.Menu
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -20,8 +23,12 @@ class MainActivity : AppCompatActivity(), Contractor.View, CityListAdapter.OnCli
     @BindView(R.id.rv_city)
     lateinit var rvCity: RecyclerView
 
+    @BindView(R.id.tv_no_results)
+    lateinit var tvResults: TextView
+
     lateinit var presenter: Presenter
     lateinit var mapper: DisplayMapper
+    lateinit var cityListAdapter: CityListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +39,45 @@ class MainActivity : AppCompatActivity(), Contractor.View, CityListAdapter.OnCli
         presenter.start()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+        val item = menu?.findItem(R.id.item_search)
+        val etSearch = item?.actionView as SearchView
+        etSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                presenter.search(newText)
+                return true
+            }
+        })
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun showCityList(cities: List<CityDisplay>) {
         rvCity.layoutManager = LinearLayoutManager(this)
-        val cityListAdapter = CityListAdapter(cities, this)
+        cityListAdapter = CityListAdapter(ArrayList(cities), this)
         rvCity.adapter = cityListAdapter
+    }
 
+    override fun updateList(cityList: ArrayList<CityDisplay>) {
+        hideNoResults()
+        cityListAdapter.updateList(cityList)
+    }
+
+    override fun showNoResults() {
+        rvCity.visibility = View.GONE
+        tvResults.visibility = View.VISIBLE
+    }
+
+    override fun hideNoResults() {
+        tvResults.visibility = View.GONE
+        rvCity.visibility = View.VISIBLE
     }
 
     override fun onClick(lat: Double, lon: Double) {
-        Toast.makeText(this, "lat: " + lat + " \nlon : " + lon, Toast.LENGTH_SHORT).show()
+
     }
 }
