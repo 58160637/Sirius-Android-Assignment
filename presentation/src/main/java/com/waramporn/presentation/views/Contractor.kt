@@ -7,7 +7,6 @@ interface Contractor {
         fun showCityList(cities: List<CityDisplay>)
         fun updateList(cityList: ArrayList<CityDisplay>)
         fun showNoResults()
-        fun hideNoResults()
         fun navigateToGoogleMap(uri: String)
     }
 

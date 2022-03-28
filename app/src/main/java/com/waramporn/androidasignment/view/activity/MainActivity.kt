@@ -64,18 +64,14 @@ class MainActivity : AppCompatActivity(), Contractor.View, CityListAdapter.OnCli
     }
 
     override fun updateList(cityList: ArrayList<CityDisplay>) {
-        hideNoResults()
+        tvResults.visibility = View.GONE
+        rvCity.visibility = View.VISIBLE
         cityListAdapter.updateList(cityList)
     }
 
     override fun showNoResults() {
         rvCity.visibility = View.GONE
         tvResults.visibility = View.VISIBLE
-    }
-
-    override fun hideNoResults() {
-        tvResults.visibility = View.GONE
-        rvCity.visibility = View.VISIBLE
     }
 
     override fun navigateToGoogleMap(uri: String) {
